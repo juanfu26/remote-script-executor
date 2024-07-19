@@ -1,0 +1,20 @@
+x-default-bake: &bake
+  platforms:
+    - linux/amd64
+    - linux/arm64
+
+services:
+  remote-script-executor:
+    container_name: remote-script-executor
+    image: juanfu26/remote-script-executor
+    build:
+      context: .
+      x-bake: *bake
+    environment:
+      SSH_IP: 'host.docker.internal'
+      SSH_PORT: 22
+      SSH_USERNAME: 'user'
+      SSH_PASSWORD: 'pass'
+      GET_IPS: 'true'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
